@@ -1,0 +1,29 @@
+[package]
+name = "rhegg"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "rhegg"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rheggcli"
+path = "src/bin.rs"
+
+
+[dependencies]
+num-traits = "0.2"
+itoa = "1"
+dhfarm_engine = { git = "https://github.com/DataHenHQ/farm_engine.git", branch = "MSH-4" }
+tokio = {version = "1.45.0", "features" = ["sync"]}
+anyhow = "1"
+tar = "0.4"
+indexmap = "2.9"
+thiserror = "2"
+serde = "1.0.219"
+radix_trie = "0.2.1"
+
+[dev-dependencies]
+rand = "0.9"
+tempfile = "3"
