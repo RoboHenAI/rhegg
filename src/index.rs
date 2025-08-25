@@ -76,6 +76,11 @@ impl Index {
         })
     }
 
+    /// Gets the page size.
+    pub fn get_page_size(&self) -> u64 {
+        self.page_size
+    }
+
     /// Gets the records per page.
     pub fn get_records_per_page(&self) -> u8 {
         self.records_per_page
@@ -194,7 +199,7 @@ impl Index {
     /// # Arguments
     /// 
     /// * `entry_index` - The index of the entry.
-    fn calc_page_index(&self, entry_index: usize) -> usize {
+    pub fn calc_page_index(&self, entry_index: usize) -> usize {
         if entry_index < 1 {
             return 0;
         }
@@ -2427,5 +2432,18 @@ mod tests {
         assert!(index.modified.contains(&i1));
         assert!(index.modified.contains(&i2));
         assert!(index.modified.contains(&i3));
+    }
+
+    #[test]
+    fn get_page_size() {
+        let mut data = Cursor::new(Vec::new());
+        let index = Index::new(&mut data, None).unwrap();
+        assert_eq!(index.get_page_size(), 9741);
+        let index = Index::new(&mut data, Some(5)).unwrap();
+        assert_eq!(index.get_page_size(), 1596);
+        let index = Index::new(&mut data, Some(10)).unwrap();
+        assert_eq!(index.get_page_size(), 2501);
+        let index = Index::new(&mut data, Some(1)).unwrap();
+        assert_eq!(index.get_page_size(), 872);
     }
 }
